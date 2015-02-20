@@ -1,4 +1,4 @@
-Three Tricks to Operate Your VM
+Three Tricks to Operate on Your VM
 ===
 *-MAC WANG*
 
@@ -26,7 +26,7 @@ Who would not prefer viewing web interfaces on their own OS than squeezing in th
 	```
 	[cloudera@quickstart ~]$ ifconfig
 	```
-3. Find your IP address, it is labeled by "inet addr" and starting with "192." or "10.", please notice "127.0.0.1" is not what we need. Mine is *192.168.1.106*, I will use that in my following steps;
+3. Find your IP address, it is labeled by *"inet addr"* and starting with *"192."* or *"10."*, please notice *"127.0.0.1"* is not what we need. Mine is *192.168.1.106*, I will use that in my following steps;
 
 **Step 3. Use your browser instead of the VM's (on Windows)**
 
@@ -43,7 +43,7 @@ Who would not prefer viewing web interfaces on their own OS than squeezing in th
 	* HBASE Master: *192.168.1.106:60010*
 
 	
-## 2. Enter Command on Windows
+## 2. Enter Commands on Windows
 
 Sometimes it is difficult to operate within Virtual Machine, since you had to frequently switch back and forth between your Windows and our VM. So I will show you how to interact with our VM without clicking into it. The technique we are about to use here is called [Secure Shell (SSH)](http://en.wikipedia.org/wiki/Secure_Shell). I assume you have read *1. View Web Interfaces on Windows* and understand how to get your VM's IP. I hereby use my VM's IP, *192.168.1.106*, in the following steps. 
 
@@ -56,8 +56,8 @@ Sometimes it is difficult to operate within Virtual Machine, since you had to fr
 
 1. Open *Putty*;
 2. Put in your VM's IP, which is *192.168.1.106* in my case;
-3. Click "Yes" to add the key to your system;
-4. Enter "cloudera" for "login as:", and "cloudera" the password;
+3. Click *"Yes"* to add the key to your system;
+4. Enter *"cloudera"* for *"login as:"*, and *"cloudera"* for the password;
 5. Now you have control of your VM.
 
 
