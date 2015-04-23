@@ -1,5 +1,8 @@
 # **** COPYRIGHT ****
-# IMSE785 DR. SHINGI CHANG
+# IMSE785 
+# DR. SHINGI CHANG
+# WENBO WANG
+# INDUSTRIAL MANUFACTURING AND SYSTEMS ENGINEERING
 # KANSAS STATE UNIVERSITY
 # ALL RIGHTS RESERVED
 
@@ -13,6 +16,9 @@ from datetime import timedelta
 # BeautifulSoup documents:
 # http://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from bs4 import BeautifulSoup as BS
+# Progressbar documents:
+# https://code.google.com/p/python-progressbar/
+import progressbar
 
 
 # ---- function to fetch page given a date, and an airport code ----
@@ -31,9 +37,15 @@ def collectValues(from_date, to_date, airport_code, op):
 	# use current UNIX timestamp as file name
 	outputFileName = datetime.now().strftime("%s")
 	
+	if op == 's': 
+		# progress indicator
+		progress = progressbar.ProgressBar()
+		customized_range = progress(range(delta_days + 1))
+	else: 
+		customized_range = range((delta_days) + 1)
 	# iterate through range starting from from_date to to_date
 	# and print the values
-	for n in range(delta_days + 1):
+	for n in customized_range:
 		a_date = from_date + timedelta(n)
 		try: 
 			a_page = fetchPage(a_date, airport_code)
@@ -56,7 +68,7 @@ def collectValues(from_date, to_date, airport_code, op):
 			min_avg = wx_spans[6].string
 			min_record = wx_spans[7].string
 
-			result = a_date.strftime('%Y/%m/%d') + "\t" + mean_actual	
+			result = a_date.strftime('%Y/%m/%d') + '\t' + mean_actual
 
 		else: 
 			# temperature data not available
@@ -67,15 +79,17 @@ def collectValues(from_date, to_date, airport_code, op):
 			# user requested to save file
 			with open(outputFileName, 'a') as outputFile:
 				# write output to file
-				outputFile.write(result)
+				outputFile.write(result + '\n')
 
 			if op in ['ps', 'sp']:
 				# user requested to print result too
 				print result
+
+			outputFile.close()
 		else:
 			print result
 
-	outputFile.close()
+	
 
 
 
@@ -83,12 +97,12 @@ def collectValues(from_date, to_date, airport_code, op):
 def main():
 	# ============ some welcome msg ==========
 	# ask user to input an airport code
-	airport_code_input = raw_input('> Enter an aiport code with format XXX: ')
+	airport_code_input = raw_input('\n> Aiport code (XXX): ')
 
 	# evaluate if input is a valid airport code
-	with open("iata-airport-codes.txt") as f:
+	with open("iata-airport-codes.txt") as iataFile:
 		airport_info = ''
-		for line in f:
+		for line in iataFile:
 			(iata_code, iata_info) = line.split('\t')
 			if iata_code == airport_code_input:
 				airport_code = iata_code
@@ -96,11 +110,11 @@ def main():
 				break
 		# ==== if airport_code is invalid ====
 		# ==== exit program here ===
-	f.close()
+	iataFile.close()
 
 	# ask user to input date range for retrieving data accordingly 
-	from_date_input = raw_input('> Date range starts from (YYYY/MM/DD): ') 
-	to_date_input = raw_input('> Date range ends at (YYYY/MM/DD): ')
+	from_date_input = raw_input('> Date range from (YYYY/MM/DD): ') 
+	to_date_input = raw_input('> Date range to (YYYY/MM/DD): ')
 
 	# convert user input into a datetime object
 	# if unsuccessful, through a value error exception
@@ -119,13 +133,14 @@ def main():
 		sys.exit(0)
 
 	# ask user to select data handling method
-	op_input = raw_input('> Select data handling method (p-print, s-save, ps-print&save):')
+	op_input = raw_input('> Select operation (p-print, s-save, ps-print&save):')
 
+	# ==== evaluate op_input ====
 	op = op_input
 
 	# Start getting data from user-specified date range
 	delta_days = (to_date - from_date).days
-	print "> Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n"  
+	print "> Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n(Press Ctrl-C to force-stop)\n"  
 
 	collectValues(from_date, to_date, airport_code, op)
 
