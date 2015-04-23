@@ -76,6 +76,7 @@ def main():
 				airport_info = iata_info
 				break
 		# ==== if airport_code is invalid ====
+		# ==== exit program here ===
 
 	# ask user to input date range for retrieving data accordingly 
 	from_date_input = raw_input('>Date range starts from (YYYY/MM/DD): ') 
