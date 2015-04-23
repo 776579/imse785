@@ -24,10 +24,13 @@ def fetchPage(a_date, airport_code):
 	page = urllib2.urlopen(url_string)
 	return page
 
-def collectValues(from_date, to_date, airport_code):
+def collectValues(from_date, to_date, airport_code, op):
 	# print temperature values from from_date to to_date
 	delta_days = int((to_date - from_date).days)
 
+	# use current UNIX timestamp as file name
+	outputFileName = datetime.now().strftime("%s")
+	
 	# iterate through range starting from from_date to to_date
 	# and print the values
 	for n in range(delta_days + 1):
@@ -35,7 +38,7 @@ def collectValues(from_date, to_date, airport_code):
 		try: 
 			a_page = fetchPage(a_date, airport_code)
 		except ValueError:
-			print "\n>Error: Cannot fetch page, please try again!\n"
+			print "\n> Error: Cannot fetch page, please try again!\n"
 		
 		# load the page into a beautiful soup data structure
 		soup = BS(a_page)
@@ -53,18 +56,34 @@ def collectValues(from_date, to_date, airport_code):
 			min_avg = wx_spans[6].string
 			min_record = wx_spans[7].string
 
-			print a_date.strftime('%Y/%m/%d'), ":", mean_actual	
+			result = a_date.strftime('%Y/%m/%d') + "\t" + mean_actual	
 
 		else: 
 			# temperature data not available
-			print "NA"
+			result = "NA"
+
+		
+		if op in ['s', 'ps', 'sp']:
+			# user requested to save file
+			with open(outputFileName, 'a') as outputFile:
+				# write output to file
+				outputFile.write(result)
+
+			if op in ['ps', 'sp']:
+				# user requested to print result too
+				print result
+		else:
+			print result
+
+	outputFile.close()
+
 
 
 # ---- Main function ----
 def main():
 	# ============ some welcome msg ==========
 	# ask user to input an airport code
-	airport_code_input = raw_input('>Enter an aiport code with format XXX: ')
+	airport_code_input = raw_input('> Enter an aiport code with format XXX: ')
 
 	# evaluate if input is a valid airport code
 	with open("iata-airport-codes.txt") as f:
@@ -77,10 +96,11 @@ def main():
 				break
 		# ==== if airport_code is invalid ====
 		# ==== exit program here ===
+	f.close()
 
 	# ask user to input date range for retrieving data accordingly 
-	from_date_input = raw_input('>Date range starts from (YYYY/MM/DD): ') 
-	to_date_input = raw_input('>Date range ends at (YYYY/MM/DD): ')
+	from_date_input = raw_input('> Date range starts from (YYYY/MM/DD): ') 
+	to_date_input = raw_input('> Date range ends at (YYYY/MM/DD): ')
 
 	# convert user input into a datetime object
 	# if unsuccessful, through a value error exception
@@ -95,16 +115,19 @@ def main():
 			to_date = date_switch
 			# print "\n>Calmly switched from_date and to_date\n"
 	except ValueError:
-		print "\n>Error: Incorrect date format, please try again!\n"
+		print "\n> Error: Incorrect date format, please try again!\n"
 		sys.exit(0)
 
+	# ask user to select data handling method
+	op_input = raw_input('> Select data handling method (p-print, s-save, ps-print&save):')
 
+	op = op_input
 
 	# Start getting data from user-specified date range
 	delta_days = (to_date - from_date).days
-	print ">Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n"  
+	print "> Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n"  
 
-	collectValues(from_date, to_date, airport_code)
+	collectValues(from_date, to_date, airport_code, op)
 
 
 # Program starts executing here
