@@ -30,19 +30,26 @@ def fetchPage(a_date, airport_code):
 	page = urllib2.urlopen(url_string)
 	return page
 
+# ---- function to collect temperature values and save/print them to output
 def collectValues(from_date, to_date, airport_code, op):
 	# print temperature values from from_date to to_date
 	delta_days = int((to_date - from_date).days)
 
 	# use current UNIX timestamp as file name
 	outputFileName = datetime.now().strftime("%s")
+
 	
 	if op == 's': 
 		# progress indicator
 		progress = progressbar.ProgressBar()
 		customized_range = progress(range(delta_days + 1))
+		outputMsgPrefix = 'File saved to ' + outputFileName + '.txt'
 	else: 
 		customized_range = range((delta_days) + 1)
+		if op in ['ps', 'sp']:
+			outputMsgPrefix = 'File saved to ' + outputFileName + '.txt'
+
+		
 	# iterate through range starting from from_date to to_date
 	# and print the values
 	for n in customized_range:
@@ -68,7 +75,7 @@ def collectValues(from_date, to_date, airport_code, op):
 			min_avg = wx_spans[6].string
 			min_record = wx_spans[7].string
 
-			result = a_date.strftime('%Y/%m/%d') + '\t' + mean_actual
+			result = a_date.strftime('%Y/%m/%d') + '\t' + mean_actual + '\t' + min_actual + '\t' + max_actual
 
 		else: 
 			# temperature data not available
@@ -81,6 +88,7 @@ def collectValues(from_date, to_date, airport_code, op):
 				# write output to file
 				outputFile.write(result + '\n')
 
+
 			if op in ['ps', 'sp']:
 				# user requested to print result too
 				print result
@@ -88,6 +96,9 @@ def collectValues(from_date, to_date, airport_code, op):
 			outputFile.close()
 		else:
 			print result
+
+	# print completion message
+	print '\n>' + outputMsgPrefix + '\n>[Program completed.]\n' 
 
 	
 
@@ -140,7 +151,7 @@ def main():
 
 	# Start getting data from user-specified date range
 	delta_days = (to_date - from_date).days
-	print "> Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n(Press Ctrl-C to force-stop)\n"  
+	print "> Collecting data from " + from_date.strftime('%Y/%m/%d') + " to " + to_date.strftime('%Y/%m/%d') + " (" + str(delta_days + 1) + " days) at " + airport_info + "...\n(Press Ctrl-C to force-stop)\n\nDate\t\tMean\tMin\tMax\n"  
 
 	collectValues(from_date, to_date, airport_code, op)
 
