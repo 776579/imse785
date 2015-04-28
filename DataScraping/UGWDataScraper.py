@@ -48,6 +48,8 @@ def collectValues(from_date, to_date, airport_code, op):
 		customized_range = range((delta_days) + 1)
 		if op in ['ps', 'sp']:
 			outputMsgPrefix = 'File saved to ' + outputFileName + '.txt'
+		else : 
+			outputMsgPrefix = str(delta_days) + ' days\' value printed.\n'
 
 		
 	# iterate through range starting from from_date to to_date
