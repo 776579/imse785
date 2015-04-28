@@ -36,20 +36,20 @@ def collectValues(from_date, to_date, airport_code, op):
 	delta_days = int((to_date - from_date).days)
 
 	# use current UNIX timestamp as file name
-	outputFileName = datetime.now().strftime("%s")
+	outputFileName = datetime.now().strftime("%s")+'.txt'
 
 	
 	if op == 's': 
 		# progress indicator
 		progress = progressbar.ProgressBar()
 		customized_range = progress(range(delta_days + 1))
-		outputMsgPrefix = 'File saved to ' + outputFileName + '.txt'
+		outputMsgPrefix = 'File saved to ' + outputFileName
 	else: 
 		customized_range = range((delta_days) + 1)
 		if op in ['ps', 'sp']:
-			outputMsgPrefix = 'File saved to ' + outputFileName + '.txt'
+			outputMsgPrefix = 'File saved to ' + outputFileName
 		else : 
-			outputMsgPrefix = str(delta_days) + ' days\' value printed.\n'
+			outputMsgPrefix = 'Value(s) printed.\n'
 
 		
 	# iterate through range starting from from_date to to_date
