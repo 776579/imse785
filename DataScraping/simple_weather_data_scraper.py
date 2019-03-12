@@ -1,4 +1,4 @@
-# IMSE785
+# IMSE785 - S. CHANG
 # KANSAS STATE UNIVERSITY
 
 import argparse
@@ -63,7 +63,6 @@ def main():
     parser.add_argument('zipcode', help='Specify 5-digit zip code, e.g. 66506')
     parser.add_argument('date', help='Specify date in format YYYY-MM-DD, e.g. 2015-01-01')
     parser.add_argument('-d', '--days', metavar='days', type=int, help='Specify number of days to check, e.g. 30')
-    # TODO: optional argument for specifying path of csv output
     parser.add_argument('-p', '--path', metavar='path', help='Specify file path to save output csv file, e.g. results.csv')
     args = parser.parse_args()
     if args.zipcode and args.date:
