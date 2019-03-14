@@ -15,4 +15,5 @@ python3 simple_weather_data_scraper.py [-h] [-d days] [-o path] zipcode date
 ### Students
 Please refer to the corresponding Canvas module page for detailed instructions.
 
-### Disclamation 
+### Disclamation
+This repository will not be actively maintained when IMSE 785 is not in session.   
