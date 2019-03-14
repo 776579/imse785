@@ -55,13 +55,13 @@ def write_to_csv(output, contents_list):
         if path.isfile(output):
             if input('File exists! Overwrite? (Y/N) ') not in ('Y', 'y'):
                 print('Cancelled.')
-            else:
-                with open(output, 'w', newline='') as fp:
-                    csv_writer = csv.DictWriter(fp, fieldnames=contents_list[0].keys())
-                    csv_writer.writeheader()
-                    for row in contents_list:
-                        csv_writer.writerow(row)
-                print("%d rows written to %s." % (len(contents_list), output))
+                return 0
+        with open(output, 'w', newline='') as fp:
+            csv_writer = csv.DictWriter(fp, fieldnames=contents_list[0].keys())
+            csv_writer.writeheader()
+            for row in contents_list:
+                csv_writer.writerow(row)
+        print("%d rows written to %s." % (len(contents_list), output))
     except:
         raise(IOError)
     finally:
