@@ -17,12 +17,12 @@
 - macOS
   - ```pip3 install bs4```
 
-### Step 3. Download the script
+### Step 3. Download file
 - Create a folder for this module, e.g. *imse785-web-scraping*.
 - Download [raw file](https://raw.githubusercontent.com/1024tm/imse785/master/simple_weather_scraper.py) from Github, and put in the folder.
 - Launch terminal/cmd and navigate to the folder.
 
-### Step 4. Using the simple web scraper
+### Step 4. Use the simple web scraper
 (Replace ```python3``` with ```python``` from now on if you are on Windows)
 
 Type ```python3 simple_weather_scraper -h``` to see the usage.
@@ -36,4 +36,4 @@ Usage examples:
   - Command above will show the weather data from Jan 1, 2016 to Jan 5, 2016.
 1. Save the results to a CSV file.
   - ```python3 simple_weather_scraper 66506 2016-01-01 -d 5 -o output.csv```
-  - Be Careful! The script will ask you confirm if a file with the same name exists, always double-check to make sure that it's ok to overwrite the previous file. 
+  - Be Careful! The script will ask you confirm if a file with the same name exists, always double-check to make sure that it's ok to overwrite the previous file.

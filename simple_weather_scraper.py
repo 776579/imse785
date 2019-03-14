@@ -71,7 +71,7 @@ def write_to_csv(output, contents_list):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('zipcode', help='Specify 5-digit zip code, e.g. 66506')
-    parser.add_argument('date', help='Specify date in format YYYY-MM-DD, e.g. 2015-01-01')
+    parser.add_argument('date', help='Specify date in ISO 8601 format YYYY-MM-DD, e.g. 2015-01-01')
     parser.add_argument('-d', '--days', metavar='days', type=int, help='Specify number of days to check, e.g. 30')
     parser.add_argument('-o', '--output', metavar='path', help='Specify file path to save output csv file, e.g. output.csv')
     args = parser.parse_args()
