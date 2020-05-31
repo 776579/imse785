@@ -3,7 +3,7 @@
 
 import argparse
 from urllib.error import HTTPError
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as BS
 from datetime import datetime as dt, timedelta
 import csv
@@ -15,8 +15,10 @@ def get_weather_data(zipcode, date):
     print(url + '\n-------')
     weather_data = {'Date': date}
     try:
-        page = urlopen(url)
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        page = urlopen(req).read()
     except HTTPError as e:
+        raise
         print('* Fail to load page, possiblly for invalid zip code.')
     else:
         soup = BS(page, 'html.parser')
@@ -32,6 +34,7 @@ def get_weather_data(zipcode, date):
     finally:
         print('\n')
     return weather_data
+
 
 def collect_weather_data(zipcode, date, days):
     start = dt.strptime(date, '%Y-%m-%d')
